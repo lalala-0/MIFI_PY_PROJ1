@@ -36,11 +36,13 @@ def process_command(game_state, command):
                 utils.attempt_open_treasure(game_state)
             else:
                 utils.solve_puzzle(game_state)
+        case "help":
+            utils.show_help()
         case "quit" | "exit" | "выход":
             print("Вы покидаете игру. До новых встреч!")
             return False  # сигнал завершения игры
         case _:
-            print("Неизвестная команда. Попробуйте look, go, take, use, inventory, quit.")
+            print("Неизвестная команда. Введите 'help' для списка команд.")
     return True  # игра продолжается
   
 def main():
