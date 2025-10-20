@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from labyrinth_game.constants import ROOMS
 import labyrinth_game.utils as utils
 import  labyrinth_game.player_actions as pa
 
@@ -32,6 +31,11 @@ def process_command(game_state, command):
                 pa.use_item(game_state, arg)
             else:
                 print("Укажите предмет для использования.")
+        case "solve" | "решить":
+            if game_state['current_room'] == 'treasure_room':
+                utils.attempt_open_treasure(game_state)
+            else:
+                utils.solve_puzzle(game_state)
         case "quit" | "exit" | "выход":
             print("Вы покидаете игру. До новых встреч!")
             return False  # сигнал завершения игры
@@ -41,11 +45,11 @@ def process_command(game_state, command):
   
 def main():
     game_state = {
-    'player_inventory': [], # Инвентарь игрока
-    'current_room': 'entrance', # Текущая комната
-    'game_over': False, # Значения окончания игры
-    'steps_taken': 0 # Количество шагов
-    }
+        'player_inventory': [], # Инвентарь игрока
+        'current_room': 'entrance', # Текущая комната
+        'game_over': False, # Значения окончания игры
+        'steps_taken': 0 # Количество шагов
+   }
     
     print("Добро пожаловать в Лабиринт сокровищ!")
     utils.describe_current_room(game_state)

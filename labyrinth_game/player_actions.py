@@ -1,5 +1,5 @@
-from labyrinth_game.utils import describe_current_room
 from labyrinth_game.constants import ROOMS
+from labyrinth_game.utils import describe_current_room
 
 def show_inventory(game_state):
     """Вывод содержимого инвентаря игрока."""
@@ -25,6 +25,9 @@ def move_player(game_state, direction):
 
 def take_item(game_state, item_name):
     """Взятие предмета."""
+    if item_name == "treasure_chest":
+        print("Вы не можете поднять сундук, он слишком тяжелый.")
+        return
     current_room_key = game_state['current_room']
     room = ROOMS[current_room_key]
 
@@ -63,5 +66,5 @@ def get_input(prompt="> "):
         return input(prompt).strip().lower().split(maxsplit=1)
     except (KeyboardInterrupt, EOFError):
         print("\nВыход из игры.")
-        return ["quit"]
+        return ["quit"] 
     
