@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "project1-vylegjanina-alena-m25-555"
+version = "1.0.0"
+description = ""
+authors = ["lalala-0 <vylegzhanina.alena@yandex.ru>"]
+readme = "README.md"
+packages = [
+    { include = "labyrinth_game" },
+]
+ 
+[tool.poetry.scripts]
+project = "labyrinth_game.main:main"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.14.1"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+exclude = ["venv", ".venv", "dist", "__pycache__"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = []
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
