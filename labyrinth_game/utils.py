@@ -80,6 +80,21 @@ def pseudo_random(seed, modulo):
     fract = val - math.floor(val) 
     return int(fract * modulo)
 
+def trigger_trap(game_state):
+    """Активация ловушки"""
+    print("Ловушка активирована! Пол стал дрожать...")
+    inventory = game_state.get('player_inventory', [])
+    if (inventory):
+        lost_index = pseudo_random(game_state['steps_taken'], len(inventory))
+        lost_item = inventory.pop(lost_index)
+        print(f"Из вашего инвентаря выпал и потерялся: {lost_item}")
+    else:
+        survival_roll = pseudo_random(game_state['steps_taken'], 10)
+        if survival_roll < 3:  # 30% шанс смерти
+            print("Вас настигает смертоносный механизм! Вы погибли...")
+            game_state['game_over'] = True
+        else:
+            print("Вам чудом удалось увернуться от смертельной ловушки!")
 
 
 def show_help():
