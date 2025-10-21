@@ -1,4 +1,5 @@
 from labyrinth_game.constants import ROOMS
+import math
 
 def describe_current_room(game_state):
     """Вывод информации о текущей комнате."""
@@ -14,6 +15,7 @@ def describe_current_room(game_state):
         print("Кажется, здесь есть загадка (используйте команду solve).")
 
 def solve_puzzle(game_state):
+    """Решение загадки."""
     room = ROOMS[game_state['current_room']]
     puzzle = room['puzzle']
     if puzzle is None:
@@ -35,6 +37,7 @@ def solve_puzzle(game_state):
 
     
 def attempt_open_treasure(game_state):
+    """Открываем финальный сундук."""
     current_room = game_state['current_room']
     room_data = ROOMS[current_room]
 
@@ -62,6 +65,23 @@ def attempt_open_treasure(game_state):
     else:
         print("Вы отступаете от сундука.")
 
+def pseudo_random(seed, modulo):
+    """
+    Псевдослучайный генератор.
+    Параметры:
+        seed (int): Базовое значение для генерации (например, количество шагов)
+        modulo (int): Верхняя граница диапазона (результат будет в [0, modulo))
+    
+    Возвращает:
+        int: Псевдослучайное целое число в диапазоне [0, modulo)
+    """
+    
+    val = math.sin(seed * 12.09876543) * 19567.987654
+    fract = val - math.floor(val) 
+    return int(fract * modulo)
+
+
+
 def show_help():
     print("\nДоступные команды:")
     print("  go <direction>  - перейти в направлении (north/south/east/west)")
@@ -72,3 +92,4 @@ def show_help():
     print("  solve           - попытаться решить загадку в комнате")
     print("  quit            - выйти из игры")
     print("  help            - показать это сообщение")
+
