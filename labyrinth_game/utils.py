@@ -1,4 +1,5 @@
 from labyrinth_game.constants import ROOMS
+import math
 
 def describe_current_room(game_state):
     """Вывод информации о текущей комнате."""
@@ -14,6 +15,7 @@ def describe_current_room(game_state):
         print("Кажется, здесь есть загадка (используйте команду solve).")
 
 def solve_puzzle(game_state):
+    """Решение загадки."""
     room = ROOMS[game_state['current_room']]
     puzzle = room['puzzle']
     if puzzle is None:
@@ -35,6 +37,7 @@ def solve_puzzle(game_state):
 
     
 def attempt_open_treasure(game_state):
+    """Открываем финальный сундук."""
     current_room = game_state['current_room']
     room_data = ROOMS[current_room]
 
@@ -62,6 +65,68 @@ def attempt_open_treasure(game_state):
     else:
         print("Вы отступаете от сундука.")
 
+def pseudo_random(seed, modulo):
+    """
+    Псевдослучайный генератор.
+    Параметры:
+        seed (int): Базовое значение для генерации (например, количество шагов)
+        modulo (int): Верхняя граница диапазона (результат будет в [0, modulo))
+    
+    Возвращает:
+        int: Псевдослучайное целое число в диапазоне [0, modulo)
+    """
+    
+    val = math.sin(seed * 12.09876543) * 19567.987654
+    val = abs(val)
+    fract = val - math.floor(val) 
+    return int(fract * modulo)
+
+def trigger_trap(game_state):
+    """Активация ловушки"""
+    print("Ловушка активирована! Пол стал дрожать...")
+    inventory = game_state.get('player_inventory', [])
+    if (inventory):
+        lost_index = pseudo_random(game_state['steps_taken'], len(inventory))
+        lost_item = inventory.pop(lost_index)
+        print(f"Из вашего инвентаря выпал и потерялся: {lost_item}")
+    else:
+        survival_roll = pseudo_random(game_state.get('steps_taken', 0), 10)
+        if survival_roll < 3:
+            print("Вас настигает смертоносный механизм! Вы погибли...")
+            game_state['game_over'] = True
+        else:
+            print("Вам чудом удалось увернуться от смертельной ловушки!")
+
+def random_event(game_state):
+    """Генерирует случайное событие при перемещении игрока (находка / испуг / ловушка)."""
+    event_chance = pseudo_random(game_state.get('steps_taken', 0), 10)
+    if event_chance != 0:
+        return
+
+    event_choice  = pseudo_random(game_state.get('steps_taken', 0) + len(game_state.get('inventory', [1])), 10)
+    current_room = game_state["current_room"]
+    inventory = game_state["player_inventory"]
+
+    # НАХОДКА
+    if event_choice == 0:
+        print("^_^ Вы нашли блестящую монетку на полу!")
+        ROOMS[current_room]["items"].append("coin")
+        return
+
+    # ИСПУГ
+    elif event_choice == 1:
+        print("O_o Вы услышали странный шорох в темноте...")
+        if "sword" in inventory:
+            print("Ваш меч сверкнул в темноте, и существо отступило!")
+        return
+
+    # ЛОВУШКА
+    elif event_choice == 2:
+        if current_room == 'trap_room' and "torch" not in inventory:
+            print(">_< Вы наступили на подозрительную плиту на полу!")
+            trigger_trap(game_state)
+        
+
 def show_help():
     print("\nДоступные команды:")
     print("  go <direction>  - перейти в направлении (north/south/east/west)")
@@ -72,3 +137,4 @@ def show_help():
     print("  solve           - попытаться решить загадку в комнате")
     print("  quit            - выйти из игры")
     print("  help            - показать это сообщение")
+
