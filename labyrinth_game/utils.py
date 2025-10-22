@@ -77,6 +77,7 @@ def pseudo_random(seed, modulo):
     """
     
     val = math.sin(seed * 12.09876543) * 19567.987654
+    val = abs(val)
     fract = val - math.floor(val) 
     return int(fract * modulo)
 
@@ -89,13 +90,42 @@ def trigger_trap(game_state):
         lost_item = inventory.pop(lost_index)
         print(f"Из вашего инвентаря выпал и потерялся: {lost_item}")
     else:
-        survival_roll = pseudo_random(game_state['steps_taken'], 10)
-        if survival_roll < 3:  # 30% шанс смерти
+        survival_roll = pseudo_random(game_state.get('steps_taken', 0), 10)
+        if survival_roll < 3:
             print("Вас настигает смертоносный механизм! Вы погибли...")
             game_state['game_over'] = True
         else:
             print("Вам чудом удалось увернуться от смертельной ловушки!")
 
+def random_event(game_state):
+    """Генерирует случайное событие при перемещении игрока (находка / испуг / ловушка)."""
+    event_chance = pseudo_random(game_state.get('steps_taken', 0), 10)
+    if event_chance != 0:
+        return
+
+    event_choice  = pseudo_random(game_state.get('steps_taken', 0) + len(game_state.get('inventory', [1])), 10)
+    current_room = game_state["current_room"]
+    inventory = game_state["player_inventory"]
+
+    # НАХОДКА
+    if event_choice == 0:
+        print("^_^ Вы нашли блестящую монетку на полу!")
+        ROOMS[current_room]["items"].append("coin")
+        return
+
+    # ИСПУГ
+    elif event_choice == 1:
+        print("O_o Вы услышали странный шорох в темноте...")
+        if "sword" in inventory:
+            print("Ваш меч сверкнул в темноте, и существо отступило!")
+        return
+
+    # ЛОВУШКА
+    elif event_choice == 2:
+        if current_room == 'trap_room' and "torch" not in inventory:
+            print(">_< Вы наступили на подозрительную плиту на полу!")
+            trigger_trap(game_state)
+        
 
 def show_help():
     print("\nДоступные команды:")

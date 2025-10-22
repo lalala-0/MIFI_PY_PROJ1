@@ -1,5 +1,5 @@
 from labyrinth_game.constants import ROOMS
-from labyrinth_game.utils import describe_current_room
+from labyrinth_game.utils import describe_current_room, random_event
 
 def show_inventory(game_state):
     """Вывод содержимого инвентаря игрока."""
@@ -20,6 +20,7 @@ def move_player(game_state, direction):
         game_state['steps_taken'] += 1
         print(f"\nВы идете {direction}...\n")
         describe_current_room(game_state)
+        random_event(game_state)
     else:
         print("Нельзя пойти в этом направлении.")
 
