@@ -23,7 +23,8 @@ def solve_puzzle(game_state):
         return
     print(puzzle['question'])
     user_answer = input("Ваш ответ: ").strip().lower()
-    if puzzle['answer'].lower() == user_answer:
+    valid_lower = [ans.lower() for ans in puzzle['answer']]
+    if user_answer in valid_lower:
         print("Правильно! Загадка решена.")
         reward = puzzle['reward']
         if reward:
@@ -33,7 +34,10 @@ def solve_puzzle(game_state):
             print("Награды за эту загадку нет.")
         room['puzzle'] = None
     else:
-        print("Неверно. Попробуйте снова.")
+        if game_state['current_room'] == 'trap_room':
+            trigger_trap(game_state)
+        else:
+            print("Неверно. Попробуйте снова.")
 
     
 def attempt_open_treasure(game_state):
