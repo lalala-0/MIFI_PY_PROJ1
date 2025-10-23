@@ -18,9 +18,10 @@ def process_command(game_state, command):
         case "go" | "идти":
             if arg:
                 pa.move_player(game_state, arg)
-                #print("Шаги:", game_state['steps_taken'])
             else:
                 print("Укажите направление (north, south, east, west).")
+        case "north" | "east" | "west" | "south":
+                pa.move_player(game_state, cmd)
         case "take" | "взять":
             if arg:
                 pa.take_item(game_state, arg)
