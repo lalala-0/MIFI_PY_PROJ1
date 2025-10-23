@@ -54,14 +54,14 @@ def attempt_open_treasure(game_state):
         game_state['game_over'] = True
         return
 
-    answer = input("Сундук заперт. ... Ввести код? (да/нет)").strip().lower()
-    if answer == 'да':
+    answer = input("Сундук заперт. ... Ввести код? (да/нет): ").strip().lower()
+    if answer in ['да', 'yes', 'y', 'д']:
         puzzle = room_data['puzzle']
         if puzzle is None:
             print("Код неизвестен, вы не можете открыть сундук.")
             return
         code_input = input("Введите код: ").strip()
-        if code_input.lower() == puzzle['answer'].lower():
+        if code_input.lower() in [ans.lower() for ans in puzzle['answer']]:
             print("Код верный! Сундук открыт!")
             room_data['items'].remove('treasure_chest')
             print("В сундуке сокровище! Вы победили!")
