@@ -1,6 +1,11 @@
 import math
 
-from labyrinth_game.constants import COMMANDS, ROOMS
+from labyrinth_game.constants import (
+    COMMANDS,
+    EVENT_PROBABILITY,
+    ROOMS,
+    TRAP_SURVIVAL_THRESHOLD,
+)
 
 
 def describe_current_room(game_state):
@@ -95,8 +100,9 @@ def trigger_trap(game_state):
         lost_item = inventory.pop(lost_index)
         print(f"Из вашего инвентаря выпал и потерялся: {lost_item}")
     else:
-        survival_roll = pseudo_random(game_state.get('steps_taken', 0), 10)
-        if survival_roll < 3:
+        survival_roll = pseudo_random(game_state.get('steps_taken', 0),
+                                       EVENT_PROBABILITY)
+        if survival_roll < TRAP_SURVIVAL_THRESHOLD:
             print("Вас настигает смертоносный механизм! Вы погибли...")
             game_state['game_over'] = True
         else:
@@ -104,12 +110,12 @@ def trigger_trap(game_state):
 
 def random_event(game_state):
     """Генерирует случайное событие при перемещении игрока (находка/испуг/ ловушка)."""
-    event_chance = pseudo_random(game_state.get('steps_taken', 0), 10)
+    event_chance = pseudo_random(game_state.get('steps_taken', 0), EVENT_PROBABILITY)
     if event_chance != 0:
         return
 
     event_choice  = pseudo_random(game_state.get('steps_taken', 0) +
-                                  len(game_state.get('inventory', [1])), 10)
+                                  len(game_state.get('inventory', [1])), 3)
     current_room = game_state["current_room"]
     inventory = game_state["player_inventory"]
 
