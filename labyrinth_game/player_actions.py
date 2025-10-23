@@ -75,5 +75,4 @@ def get_input(prompt="> "):
         return input(prompt).strip().lower().split(maxsplit=1)
     except (KeyboardInterrupt, EOFError):
         print("\nВыход из игры.")
-        return ["quit"] 
-    
+        return ["quit"]

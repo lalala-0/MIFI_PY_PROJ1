@@ -7,7 +7,7 @@ import labyrinth_game.utils as utils
 def process_command(game_state, command):
     if not command:
         return True
-    
+
     cmd = command[0]
     arg = command[1] if len(command) > 1 else None
 
@@ -46,7 +46,7 @@ def process_command(game_state, command):
         case _:
             print("Неизвестная команда. Введите 'help' для списка команд.")
     return True  # игра продолжается
-  
+
 def main():
     game_state = {
         'player_inventory': [], # Инвентарь игрока
@@ -54,7 +54,7 @@ def main():
         'game_over': False, # Значения окончания игры
         'steps_taken': 0 # Количество шагов
    }
-    
+
     print("Добро пожаловать в Лабиринт сокровищ!")
     utils.describe_current_room(game_state)
 

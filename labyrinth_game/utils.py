@@ -41,7 +41,7 @@ def solve_puzzle(game_state):
         else:
             print("Неверно. Попробуйте снова.")
 
-    
+
 def attempt_open_treasure(game_state):
     """Открываем финальный сундук."""
     current_room = game_state['current_room']
@@ -77,14 +77,13 @@ def pseudo_random(seed, modulo):
     Параметры:
         seed (int): Базовое значение для генерации (например, количество шагов)
         modulo (int): Верхняя граница диапазона (результат будет в [0, modulo))
-    
     Возвращает:
         int: Псевдослучайное целое число в диапазоне [0, modulo)
     """
-    
+
     val = math.sin(seed * 12.09876543) * 19567.987654
     val = abs(val)
-    fract = val - math.floor(val) 
+    fract = val - math.floor(val)
     return int(fract * modulo)
 
 def trigger_trap(game_state):
@@ -109,7 +108,7 @@ def random_event(game_state):
     if event_chance != 0:
         return
 
-    event_choice  = pseudo_random(game_state.get('steps_taken', 0) + 
+    event_choice  = pseudo_random(game_state.get('steps_taken', 0) +
                                   len(game_state.get('inventory', [1])), 10)
     current_room = game_state["current_room"]
     inventory = game_state["player_inventory"]
@@ -132,7 +131,7 @@ def random_event(game_state):
         if current_room == 'trap_room' and "torch" not in inventory:
             print(">_< Вы наступили на подозрительную плиту на полу!")
             trigger_trap(game_state)
-        
+
 
 def show_help():
     print("\nДоступные команды:")
