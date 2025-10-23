@@ -1,6 +1,7 @@
 from labyrinth_game.constants import ROOMS
 from labyrinth_game.utils import describe_current_room, random_event
 
+
 def show_inventory(game_state):
     """Вывод содержимого инвентаря игрока."""
     inventory = game_state.get('player_inventory', [])
@@ -18,7 +19,8 @@ def move_player(game_state, direction):
         new_room = room['exits'][direction]
         if new_room == 'treasure_room':
             if 'rusty_key' in game_state['player_inventory']:
-                print("Вы используете найденный ключ, чтобы открыть путь в комнату сокровищ.")
+                print("Вы используете найденный ключ, " \
+                "чтобы открыть путь в комнату сокровищ.")
             else:
                 print("Дверь заперта. Нужен ключ, чтобы пройти дальше.")
                 return

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
+import labyrinth_game.player_actions as pa
 import labyrinth_game.utils as utils
-import  labyrinth_game.player_actions as pa
+
 
 def process_command(game_state, command):
     if not command:

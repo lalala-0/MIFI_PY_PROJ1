@@ -1,5 +1,7 @@
-from labyrinth_game.constants import ROOMS, COMMANDS
 import math
+
+from labyrinth_game.constants import COMMANDS, ROOMS
+
 
 def describe_current_room(game_state):
     """Вывод информации о текущей комнате."""
@@ -102,12 +104,13 @@ def trigger_trap(game_state):
             print("Вам чудом удалось увернуться от смертельной ловушки!")
 
 def random_event(game_state):
-    """Генерирует случайное событие при перемещении игрока (находка / испуг / ловушка)."""
+    """Генерирует случайное событие при перемещении игрока (находка/испуг/ ловушка)."""
     event_chance = pseudo_random(game_state.get('steps_taken', 0), 10)
     if event_chance != 0:
         return
 
-    event_choice  = pseudo_random(game_state.get('steps_taken', 0) + len(game_state.get('inventory', [1])), 10)
+    event_choice  = pseudo_random(game_state.get('steps_taken', 0) + 
+                                  len(game_state.get('inventory', [1])), 10)
     current_room = game_state["current_room"]
     inventory = game_state["player_inventory"]
 
