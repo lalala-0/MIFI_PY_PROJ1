@@ -1,4 +1,4 @@
-from labyrinth_game.constants import ROOMS
+from labyrinth_game.constants import ROOMS, COMMANDS
 import math
 
 def describe_current_room(game_state):
@@ -133,12 +133,6 @@ def random_event(game_state):
 
 def show_help():
     print("\nДоступные команды:")
-    print("  go <direction>  - перейти в направлении (north/south/east/west)")
-    print("  look            - осмотреть текущую комнату")
-    print("  take <item>     - поднять предмет")
-    print("  use <item>      - использовать предмет из инвентаря")
-    print("  inventory       - показать инвентарь")
-    print("  solve           - попытаться решить загадку в комнате")
-    print("  quit            - выйти из игры")
-    print("  help            - показать это сообщение")
+    for command, description in COMMANDS.items():
+        print(f"  {command:<16} - {description}")
 
