@@ -4,9 +4,6 @@ install:
 project:
 	poetry run project
 
-run:
-	poetry run project
-
 build:
 	poetry build
 
