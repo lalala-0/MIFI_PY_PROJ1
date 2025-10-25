@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "project1-vylegjanina-alena-m25-555"
-version = "1.0.0"
-description = ""
+version = "1.0.1"
+description = "Консольная приключенческая игра 'Лабиринт сокровищ', где игрок исследует лабиринт, решает загадки и ищет сокровища."
 authors = ["lalala-0 <vylegzhanina.alena@yandex.ru>"]
 readme = "README.md"
 packages = [
@@ -23,7 +23,7 @@ target-version = "py311"
 exclude = ["venv", ".venv", "dist", "__pycache__"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]
+select = ["E", "F", "I", "W"]
 ignore = []
 
 [build-system]
